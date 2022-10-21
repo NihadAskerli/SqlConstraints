@@ -1,0 +1,109 @@
+Create table Skill (
+id int primary key ,
+name varchar2(30),
+power number(2)
+);
+create table Students (
+id int ,
+name varchar2(30),
+surname varchar2(30),
+skill_id int ,
+Constraint sk_id_c foreign key skill_id references Skill(id)
+);
+create table groupstudents(
+id int primary key,
+name varchar2(20),
+teacher_id number(30)
+);
+alter table Skill rename column name to skill_name;
+alter table Skill rename column power to skill_power;
+alter table Skill add constraint  pw_cs  unique (skill_power);
+alter table Skill modify check( skill_power between 0 and 10);
+insert into Skill values (1,'sql',10);
+alter table Students rename column name to student_name ;
+alter table Students rename column surname to student_surname;
+alter table Students add constraint id_cs foreign key (groups_id) references groupstudents (id);
+alter table groupstudents rename column name to group_name;
+insert into Students values (1,'Nihad','Askerli',1,1);
+-- error insert ilk once groupstudentsden baslamalidir
+insert into groupstudents values (1,'652.20E',1);
+insert into Students values (1,'Nihad','Askerli',1,1);
+select * from Students;
+insert into Skill values(2,'Java',9);
+select * from Skill;
+insert into groupstudents values (2,'682.20E',2);
+select * from groupstudents;
+insert into Students values (2,'Ismayil','Ismayilli',2,2);
+select * from Students;
+-- her zaman istinad noqtelerini birinci doldururuq;
+create table Teacher(
+id int primary key ,
+name nvarchar2(30),
+surname varchar2(40),
+subject_id number(4)
+);
+select * from groupstudents;
+insert into Teacher values (1,'Musviq','Ferzelyev',1);
+select * from Teacher;
+insert into Teacher values (2,'Nihal','Eliyev',2);
+select * from Teacher ;
+alter table groupstudents add constraint tc_id_cs foreign key (teacher_id) references Teacher(id) on delete set null;
+delete from Teacher where id=1;
+-- delete olundu ve neticesi
+select * from groupstudents;
+insert into Teacher values (1,'Musviq','Ferzelyev',1);
+select * from Teacher;
+create table subject (
+id int ,
+name varchar2(30),
+lesson_time number(10)
+);
+alter table subject rename column name to subject_name;
+alter table subject add constraint nm_cs unique(subject_name);
+alter table subject modify subject_name not null;
+insert into subject values (1,'Math',52);
+insert into subject values (2,'programing',88);
+alter table subject add constraint sb primary key(id);
+alter table Teacher add constraint sb_id_cs foreign key (subject_id) references subject (id);
+drop table subject ;
+-- error 
+alter table Teacher drop constraint sb_id_cs; 
+select * from Teacher ;
+alter table Teacher add constraint sb_id foreign key (subject_id) references subject (id) on delete cascade;
+-- indi delete edile biler 
+drop table Teacher;
+burada asagida mysqlde yazilibdi oracle live error verdi onun ucun ;
+create table company(
+id int primary key ,
+name varchar(20)
+);
+select * from company;
+create table author(
+id int primary key ,
+name varchar(20),
+birth_date date,
+company_id int,
+constraint cs_cp_id foreign key (company_id) references company(id) on update cascade
+);
+create table Books(
+id int primary key ,
+name varchar(30),
+author_id int,
+create_date date,
+CONSTRAINT au_id_cs FOREIGN key (author_id) references author(id) on update set  null
+);
+insert into company values (1,'Example_book');
+select * from company;
+insert into author values (1,'Rio','1987-01-12',1);
+select* from author;
+update company set id=2 where name='Example_book';
+select * from company;
+select * from author;
+-- update olundu author tablinda
+insert into Books values (1,'bassiz atli',1,'2009-01-09');
+select * from Books;
+update author set id=2 where name='Rio';
+select * from author;
+select *from Books;
+-- null alindi
+  

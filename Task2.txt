@@ -1,0 +1,105 @@
+create table Person(
+id number(30) primary key,
+name nvarchar2(30) not null,
+surname nvarchar2(40),
+age int
+);
+insert into Person values(1,'Nihad','Askerli',19);
+select * from Person;
+alter table Person modify surname not null;
+alter table Person rename column name to p_name;
+alter table Person rename column surname to p_surname;
+alter table Person modify  check ( age between 18 and 30);
+insert into Person values (1,'Niko','asker',17);
+-- error 
+alter table Person add personal_id number(30);
+select * from Person;
+update Person set personal_id=1 where id=1;
+select * from Person;
+alter table Person modify personal_id unique;
+insert into Person values (2,'Xeyal','Askerli',20,1);
+-- error unique personal_id
+insert into Person values (2,'Xeyal','Askerli',20,2);
+insert into Person values (3,'Nahid','Askerli',20,3);
+insert into Person values (4,'NIcat','Quliyev',20,34);
+insert into Person values (5,'Nail','Quliyev'20,23);
+insert into Person values (6,'Yusif','Quliyev',20,12);
+select * from Person ;
+select * from Person ;
+alter table Person rename column id to person_id;
+select * from Person order by  person_id asc;
+ALTER TABLE Person
+ADD CONSTRAINT U_Person UNIQUE (person_id,age);
+select * from Person;
+alter table Person modify  person_id constraint pk_id not null;
+select * from Person;
+select * from Person where personal_id=2;
+create table Students (
+id int ,
+name varchar2(20),
+surname varchar2(30),
+age number (30),
+course varchar2(20),
+pay number(20)
+);
+alter table Students rename column id to students_id;
+alter table Students add constraint st_pk primary key (students_id);
+select * from Students;
+insert into Students(students_id) values(1);
+select * from Students;
+alter table Students rename constraint st_pk to new_st_pk;
+alter table Students rename column name to students_name;
+alter table Students add constraint st_name_uq unique (students_name);
+select * from Students;
+update Students set students_name='Nihad' where  students_id=1;
+alter table Students modify students_name constraint st_name_u not null;
+select * from Students;
+alter table Students rename column surname to students_surname;
+alter table Students add constraint st_surname_uq unique (students_surname);
+update Students set students_surname='Askerli' where students_id=1;
+select * from Students;
+alter table Students modify students_surname not null;
+alter table Students rename column age to students_age;
+select * from Students;
+alter table Students add constraint st_age unique (students_age);
+alter table Students modify students_age check( students_age between 18 and 30);
+update Students set students_age=17;
+-- error
+alter table Students rename column course to students_course;
+alter table Students add constraint st_co  unique(students_course);
+update Students set students_course ='Big Data'  where students_id=1;
+select * from Students;
+alter table Students modify students_course not null;
+alter table Students rename column pay to students_pay ;
+select * from Students;
+update Students set students_pay=120 where students_id=1;
+select * from Students;
+alter table Students add constraint st_py unique(students_pay);
+alter table Students modify students_pay not null;
+select * from Students;
+update Students set students_age=19;
+select * from Students;
+insert into Students values (2,'anar','samirov',20,'C++',170);
+select * from Students;
+select initcap(students_name) from Students where students_id=2;
+alter table Students rename constraint st_co to st_co_new;
+select * from Students;
+alter table Students drop constraint new_st_pk;
+alter table Students add constraint st_pk primary key (students_id);
+select students_surname from Students where students_name=initcap('nihad');
+create table Film(
+id int,
+name nvarchar2(30),
+create_time date
+);
+alter table Film rename column id to film_id;
+alter table Film add constraint id_pk primary key (film_id);
+alter table Film rename column name to film_name;
+alter table Film add constraint name_null unique (film_name);
+alter table Film modify film_name not null;
+alter table Film drop constraint name_null;
+alter table Film add constraint cr_un unique (create_time );
+alter table Film modify create_time constraint cr_unik not null ;
+insert into Film values (1,'breaking_bad',to_date('12-08-2004','dd-mm-yyyy'));
+select film_id,film_name,to_char (create_time,'dd-mm-yyyy') from Film;
+alter table Film drop constraint cr_unik;
